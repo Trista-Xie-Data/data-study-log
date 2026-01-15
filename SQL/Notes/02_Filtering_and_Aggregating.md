@@ -127,6 +127,7 @@ ORDER BY field_1 ASC, field_2 DESC;
 
 **`GROUP BY`** 
 commonly used with aggregate functions to provide summary statistics. This is because the aggregate function will reduce the non-grouped field to one record only, which will need to correspond to one group.
+GROUP BY collapses identical values into single rows, producing the same result as DISTINCT for the specified columns.
 
 ### Filtering grouped data
 
@@ -147,4 +148,5 @@ Misspelling
 Incorrect capitalization
 Incorrect or missing punctuation, especially commas
 Field name with spaces *[A SQL mistake is including spaces in a field name. To query that table, we'll need to enclose the field name in double-quotes(PostgreSQL) or single-quote(MySQL) to indicate that, despite being two words, the name refers to just one field.]* 
+
 
