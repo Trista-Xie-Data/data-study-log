@@ -191,8 +191,8 @@ LIMIT 8;
 compare values from part of a table to other values from within the same table
 
 ```sql
-SELECT t1.name AS p1
-	t2.name AS p2
+SELECT t1.name AS p1，
+	t2.name AS p2，
 	t1.id
 FROM table_1 AS t1
 INNER JOIN table_1 AS t2
