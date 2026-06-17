@@ -197,22 +197,10 @@ SELECT t1.name AS p1，
 FROM table_1 AS t1
 INNER JOIN table_1 AS t2
 ON t1.id = t2.id
-	AND t1.name <> t2.name
-LIMTI 8;
+	AND t1.name <> t2.name;
 ```
 
-return: 
-
-| p1      | p2      | id   |
-| ------- | ------- | ---- |
-| Alice   | Bob     | 1    |
-| Alice   | Charlie | 1    |
-| Alice   | Daniel  | 1    |
-| Bob     | Alice   | 2    |
-| Bob     | Charlie | 2    |
-| Bob     | Daniel  | 2    |
-| Charlie | Alice   | 3    |
-| Charlie | Bob     | 3    |
+return: Empty set
 
 
 
