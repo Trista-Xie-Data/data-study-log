@@ -1,4 +1,4 @@
-Joining data enable us to draw information from separate tables together into a single, meaningful set of results.
+Joining data enables us to draw information from separate tables together into a single, meaningful set of results.
 
 Use these two tables to demonstrate different JOIN types: 
 
@@ -109,7 +109,7 @@ SELECT t1.id AS L_id,
 	product
 FROM table_1 AS t1
 FULL JOIN table_2 AS t2
-USING(id);
+ON t1.id = t2.id;
 ```
 
 return:
@@ -142,7 +142,7 @@ SELECT COALESCE(t1.id, 	t2.id) AS id,
 	product
 FROM table_1 AS t1
 FULL JOIN table_2 AS t2
-USING(id);
+ON t1.id = t2.id;
 ```
 
 return:
@@ -167,20 +167,17 @@ creates all possible combinations of two tables.
 ```sql
 SELECT name, product
 FROM table_1
-CROSS J0IN table_2
-LIMIT 8;
+CROSS JOIN table_2
+LIMIT 5;
 ```
 
-|  name   | product  |
-| :-----: | :------: |
-|  Alice  |  Laptop  |
-|   Bob   |  Mouse   |
-| Charlie | Keyboard |
-| Daniel  | Monitor  |
-|  Alice  |  Laptop  |
-|   Bob   |  Mouse   |
-| Charlie | Keyboard |
-| Daniel  | Monitor  |
+| name  | product  |
+| :---: | :------: |
+| Alice |  Laptop  |
+| Alice |  Mouse   |
+| Alice | Keyboard |
+| Alice | Monitor  |
+|  Bob  |  Laptop  |
 
 
 
@@ -191,8 +188,8 @@ LIMIT 8;
 compare values from part of a table to other values from within the same table
 
 ```sql
-SELECT t1.name AS p1，
-	t2.name AS p2，
+SELECT t1.name AS p1,
+	t2.name AS p2,
 	t1.id
 FROM table_1 AS t1
 INNER JOIN table_1 AS t2
@@ -210,11 +207,12 @@ return: Empty set
 
 ```sql
 SELECT *
-FROM left table
-INNER J0IN right table
+FROM left_table
+INNER JOIN right_table
 ON left_table.id = right_table.id
-INNER J0IN another_table
+INNER JOIN another_table
 ON left_table.id = another table.id;
+
 ```
 
 *Note. Depending on the use case, left_table or right_table can be used in the 0N clause* 
@@ -229,8 +227,9 @@ ON left_table.id = another table.id;
 SELECT *
 FROM left_table
 INNER JOIN right_table
-0N left_table.id = right_table.id
-AND left_table.date = right table.date;
+ON left_table.id = right_table.id
+AND left_table.date = right_table.date;
+
 ```
 
 
@@ -252,6 +251,7 @@ FROM left_table
 UNION
 SELECT *
 FROM right_table;
+
 ```
 
 ##### `UNION ALL`
@@ -268,6 +268,7 @@ FROM left_table
 INTERSECT
 SELECT *
 FROM right_table;
+
 ```
 
 ##### `EXCEPT` 
@@ -284,11 +285,22 @@ choose records in the first table where a condition is met in the second table
 
 ```sql
 SELECT *
-FROM table_1 AS t1
+FROM table_1
 WHERE id IN (
 	SELECT id
+	FROM table_2);
+
+```
+
+```sql
+SELECT *
+FROM table_1 AS t1
+WHERE EXISTS (
+	SELECT * 
 	FROM table_2 AS t2
-	WHERE t1.id = t2.id);
+	WHERE t1.id = t2.id
+);
+
 ```
 
 
@@ -301,10 +313,22 @@ chooses records in the first table where the specify column does NOT find a matc
 
 ```sql
 SELECT *
-FROM table_1 AS t1
+FROM table_1
 WHERE id NOT IN (
 	SELECT id
+	FROM table_2
+);
+
+```
+
+```mysql
+SELECT *
+FROM table_1 AS t1
+WHERE NOT EXISTS (
+	SELECT *
 	FROM table_2 AS t2
-	WHERE t1.id = t2.id);
+	WHERE t1.id = t2.id
+);
+
 ```
 
